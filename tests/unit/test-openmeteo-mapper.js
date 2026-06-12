@@ -48,9 +48,13 @@ assertEqual(model.hourly[0].precipitationProb,  0,    'hourly[0].precipitationPr
 assertEqual(model.hourly[0].precipitation,      0.0,  'hourly[0].precipitation');
 assertEqual(model.hourly[0].weatherCode,        1,    'hourly[0].weatherCode');
 assertEqual(model.hourly[5].precipitationProb,  10,   'hourly[5].precipitationProb');
+assertEqual(model.hourly[0].time,  '2026-06-12T00:00', 'hourly[0].time');
+assertEqual(model.hourly[23].weatherCode, 1,            'hourly[23] exists (last slot)');
+assertEqual(model.hourly[24],             undefined,     'hourly[24] absent');
 
 // daily
 assertEqual(model.daily.length,              3,    'daily length');
+assertEqual(model.daily[0].date, '2026-06-12', 'daily[0].date');
 assertEqual(model.daily[0].tempMax,          28.0, 'daily[0].tempMax');
 assertEqual(model.daily[0].tempMin,          18.0, 'daily[0].tempMin');
 assertEqual(model.daily[0].precipitationSum, 0.0,  'daily[0].precipitationSum');
