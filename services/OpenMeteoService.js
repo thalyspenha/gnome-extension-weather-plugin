@@ -1,6 +1,5 @@
 import Soup from 'gi://Soup';
 import GLib from 'gi://GLib';
-import Gio from 'gi://Gio';
 import { validate, OpenMeteoValidationError } from '../utils/OpenMeteoValidator.js';
 import { map } from '../utils/OpenMeteoMapper.js';
 
@@ -28,8 +27,10 @@ export class OpenMeteoService {
         this._session.timeout = timeout;
         this._maxRetries = maxRetries;
         this._baseDelay  = baseDelay;
-        this._cache      = { key: null, model: null, fetchedAt: 0 };
-        this._destroyed  = false;
+        this._cache          = { key: null, model: null, fetchedAt: 0 };
+        this._destroyed      = false;
+        this._delaySourceId  = null;
+        this._delayReject    = null;
     }
 
     async fetch(lat, lon) {
@@ -45,6 +46,14 @@ export class OpenMeteoService {
 
     destroy() {
         this._destroyed = true;
+        if (this._delaySourceId !== null) {
+            GLib.source_remove(this._delaySourceId);
+            this._delaySourceId = null;
+        }
+        if (this._delayReject !== null) {
+            this._delayReject(new Error('OpenMeteoService destroyed'));
+            this._delayReject = null;
+        }
         this._session.abort();
         this._cache = { key: null, model: null, fetchedAt: 0 };
     }
@@ -71,11 +80,9 @@ export class OpenMeteoService {
     _httpGet(url) {
         const uri     = GLib.Uri.parse(url, GLib.UriFlags.NONE);
         const message = new Soup.Message({ method: 'GET', uri });
-        const cancel  = new Gio.Cancellable();
-
         return new Promise((resolve, reject) => {
             this._session.send_and_read_async(
-                message, GLib.PRIORITY_DEFAULT, cancel,
+                message, GLib.PRIORITY_DEFAULT, null,
                 (session, result) => {
                     let bytes;
                     try {
@@ -131,8 +138,11 @@ export class OpenMeteoService {
     }
 
     _delay(ms) {
-        return new Promise(resolve => {
-            GLib.timeout_add(GLib.PRIORITY_DEFAULT, Math.ceil(ms), () => {
+        return new Promise((resolve, reject) => {
+            this._delayReject = reject;
+            this._delaySourceId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, Math.ceil(ms), () => {
+                this._delaySourceId = null;
+                this._delayReject   = null;
                 resolve();
                 return GLib.SOURCE_REMOVE;
             });
