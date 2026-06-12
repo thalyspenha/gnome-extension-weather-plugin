@@ -12,7 +12,8 @@ import { WeatherPopup }        from './ui/WeatherPopup.js';
 
 export default class WeatherExtension extends Extension {
     enable() {
-        const settings = this.getSettings('org.gnome.shell.extensions.weather-plugin');
+        this._settings = this.getSettings('org.gnome.shell.extensions.weather-plugin');
+        const settings = this._settings;
 
         this._service = new WeatherService({
             locationService: new LocationService(),
@@ -38,6 +39,14 @@ export default class WeatherExtension extends Extension {
             this._indicator.goOffline();
         });
 
+        this._unitChangedId = settings.connect('changed::temperature-unit', () => {
+            const cached = new CacheStore().load();
+            if (cached && this._indicator && this._popup) {
+                this._indicator.update(cached);
+                this._popup.update(cached);
+            }
+        });
+
         this._service.start().catch(e =>
             console.error('[WeatherPlugin] start error:', e.message));
     }
@@ -49,12 +58,17 @@ export default class WeatherExtension extends Extension {
             this._service.stop();
             this._service = null;
         }
+        if (this._settings) {
+            this._settings.disconnect(this._unitChangedId);
+            this._settings = null;
+        }
         if (this._indicator) {
             this._indicator.destroy();
             this._indicator = null;
         }
-        this._popup     = null;
-        this._updatedId = null;
-        this._offlineId = null;
+        this._popup         = null;
+        this._updatedId     = null;
+        this._offlineId     = null;
+        this._unitChangedId = null;
     }
 }
