@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.weather-plugin"
+          path="/org/gnome/shell/extensions/weather-plugin/">
+    <key name="temperature-unit" type="s">
+      <default>'celsius'</default>
+      <summary>Unidade de temperatura</summary>
+      <description>celsius ou fahrenheit</description>
+    </key>
+    <key name="refresh-interval" type="i">
+      <default>600</default>
+      <summary>Intervalo de atualização em segundos</summary>
+      <description>300, 600, 900 ou 1800</description>
+    </key>
+  </schema>
+</schemalist>
