@@ -22,8 +22,8 @@ export class LocationService {
                         this._client = Geoclue.Simple.new_finish(result);
                         const loc    = this._client.get_location();
                         this._coords = {
-                            lat: loc.get_latitude(),
-                            lon: loc.get_longitude(),
+                            lat: loc.latitude,
+                            lon: loc.longitude,
                         };
                         resolve(this._coords);
                     } catch (e) {

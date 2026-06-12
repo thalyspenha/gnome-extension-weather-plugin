@@ -3,6 +3,6 @@
   "description": "Clima na top bar com previsão e alertas INMET",
   "uuid": "weather-plugin@thalysvalisi",
   "version": 1,
-  "shell-version": ["48"],
+  "shell-version": ["48", "50"],
   "url": ""
 }

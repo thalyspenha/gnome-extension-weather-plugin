@@ -39,6 +39,8 @@ class PanelIndicator extends PanelMenu.Button {
     }
 
     goOffline() {
-        this.hide();
+        this._icon.set_icon_name('network-offline-symbolic');
+        this._label.set_text('—');
+        this.show();
     }
 });

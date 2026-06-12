@@ -4,7 +4,7 @@ UUID="weather-plugin@thalysvalisi"
 DEST="$HOME/.local/share/gnome-shell/extensions/$UUID"
 
 mkdir -p "$DEST"
-cp -r . "$DEST"
+rsync -a --exclude='.git' --exclude='node_modules' --exclude='docs' --exclude='tests' --exclude='.claude' . "$DEST"
 
 glib-compile-schemas "$DEST/schemas/"
 

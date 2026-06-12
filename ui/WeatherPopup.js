@@ -23,8 +23,8 @@ export class WeatherPopup extends PopupMenu.PopupMenuSection {
             width:      340,
         });
 
-        container.add_child(this._alertBanner);
         container.add_child(this._current);
+        container.add_child(this._alertBanner);
         container.add_child(new St.Widget({
             styleClass: 'popup-separator-menu-item',
             height:     1,
@@ -36,7 +36,7 @@ export class WeatherPopup extends PopupMenu.PopupMenuSection {
         }));
         container.add_child(this._daily);
 
-        const item = new PopupMenu.PopupBaseMenuItem({ reactive: false, canFocus: false });
+        const item = new PopupMenu.PopupBaseMenuItem({ reactive: false });
         item.add_child(container);
         this.addMenuItem(item);
     }

@@ -19,7 +19,11 @@ class AlertBannerWidget extends St.BoxLayout {
             return;
         }
 
-        for (const alert of model.alerts) {
+        const counts = new Map();
+        for (const alert of model.alerts)
+            counts.set(alert.title, (counts.get(alert.title) ?? 0) + 1);
+
+        for (const [title, count] of counts) {
             const row = new St.BoxLayout({ styleClass: 'weather-alert-row' });
             row.add_child(new St.Icon({
                 iconName:   'weather-severe-alert-symbolic',
@@ -27,7 +31,7 @@ class AlertBannerWidget extends St.BoxLayout {
                 styleClass: 'weather-alert-icon',
             }));
             row.add_child(new St.Label({
-                text:       alert.title,
+                text:       count > 1 ? `${title} (${count})` : title,
                 styleClass: 'weather-alert-title',
                 xExpand:    true,
             }));
