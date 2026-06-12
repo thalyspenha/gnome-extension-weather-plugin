@@ -29,6 +29,7 @@ export class OpenMeteoService {
         this._maxRetries = maxRetries;
         this._baseDelay  = baseDelay;
         this._cache      = { key: null, model: null, fetchedAt: 0 };
+        this._destroyed  = false;
     }
 
     async fetch(lat, lon) {
@@ -43,6 +44,7 @@ export class OpenMeteoService {
     }
 
     destroy() {
+        this._destroyed = true;
         this._session.abort();
         this._cache = { key: null, model: null, fetchedAt: 0 };
     }
@@ -50,6 +52,7 @@ export class OpenMeteoService {
     async _fetchWithRetry(url) {
         let lastError;
         for (let attempt = 0; attempt <= this._maxRetries; attempt++) {
+            if (this._destroyed) throw new Error('OpenMeteoService destroyed');
             if (attempt > 0)
                 await this._delay(this._backoffMs(attempt - 1, lastError));
             try {
@@ -114,11 +117,9 @@ export class OpenMeteoService {
 
     _isRetryable(e) {
         if (e instanceof OpenMeteoValidationError) return false;
-        if (e instanceof SyntaxError)             return false;
         if (e.message?.startsWith('JSON parse'))  return false;
         if (e instanceof HttpError) {
-            return e.status === 429
-                || (e.status >= 500 && e.status <= 504);
+            return e.status === 429 || e.status >= 500;
         }
         return true;
     }
@@ -139,21 +140,15 @@ export class OpenMeteoService {
     }
 
     _buildUrl(lat, lon) {
-        const parts = [
-            `latitude=${encodeURIComponent(lat.toString())}`,
-            `longitude=${encodeURIComponent(lon.toString())}`,
-            `current=${encodeURIComponent('temperature_2m,apparent_temperature,weathercode,' +
-                             'windspeed_10m,windgusts_10m,relativehumidity_2m,precipitation')}`,
-            `hourly=${encodeURIComponent('temperature_2m,weathercode,' +
-                             'precipitation_probability,precipitation')}`,
-            `daily=${encodeURIComponent('weathercode,temperature_2m_max,temperature_2m_min,' +
-                             'precipitation_sum,precipitation_probability_max,' +
-                             'windspeed_10m_max,windgusts_10m_max')}`,
-            `timezone=auto`,
-            `forecast_days=7`,
-            `wind_speed_unit=kmh`,
-        ];
-        return `${BASE_URL}?${parts.join('&')}`;
+        return `${BASE_URL}?` +
+            `latitude=${lat}&longitude=${lon}` +
+            `&current=temperature_2m,apparent_temperature,weathercode,` +
+            `windspeed_10m,windgusts_10m,relativehumidity_2m,precipitation` +
+            `&hourly=temperature_2m,weathercode,precipitation_probability,precipitation` +
+            `&daily=weathercode,temperature_2m_max,temperature_2m_min,` +
+            `precipitation_sum,precipitation_probability_max,` +
+            `windspeed_10m_max,windgusts_10m_max` +
+            `&timezone=auto&forecast_days=7&wind_speed_unit=kmh`;
     }
 
     _cacheKey(lat, lon) {
