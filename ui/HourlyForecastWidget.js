@@ -11,7 +11,7 @@ class HourlyForecastWidget extends St.BoxLayout {
         this._settings = settings;
 
         this.add_child(new St.Label({
-            text: 'Próximas 24 horas',
+            text:       'Próximas 24 horas',
             styleClass: 'weather-section-title',
         }));
 
@@ -24,9 +24,6 @@ class HourlyForecastWidget extends St.BoxLayout {
         this.add_child(this._scroll);
     }
 
-    /**
-     * @param {import('../data/WeatherModel.js').WeatherModel} model
-     */
     update(model) {
         this._slots.destroy_all_children();
         const unit = this._settings.get_string('temperature-unit');
@@ -37,13 +34,31 @@ class HourlyForecastWidget extends St.BoxLayout {
                 xAlign:     Clutter.ActorAlign.CENTER,
                 styleClass: 'weather-hourly-slot',
             });
-            box.add_child(new St.Label({ text: formatTime(slot.time), styleClass: 'weather-hour' }));
-            box.add_child(new St.Icon({ iconName: getIconName(slot.weatherCode), iconSize: 24 }));
-            box.add_child(new St.Label({ text: formatTemp(slot.temperature, unit) }));
+
             box.add_child(new St.Label({
-                text: `${slot.precipitationProb}%`,
-                styleClass: 'weather-precip-prob',
+                text:       formatTime(slot.time),
+                styleClass: 'weather-hour dim-label',
+                xAlign:     Clutter.ActorAlign.CENTER,
             }));
+            box.add_child(new St.Icon({
+                iconName: getIconName(slot.weatherCode),
+                iconSize: 28,
+                xAlign:   Clutter.ActorAlign.CENTER,
+            }));
+            box.add_child(new St.Label({
+                text:   formatTemp(slot.temperature, unit),
+                xAlign: Clutter.ActorAlign.CENTER,
+            }));
+
+            const precipCss = slot.precipitationProb > 30
+                ? 'weather-precip-high'
+                : 'weather-precip-low dim-label';
+            box.add_child(new St.Label({
+                text:       `${slot.precipitationProb}%`,
+                styleClass: precipCss,
+                xAlign:     Clutter.ActorAlign.CENTER,
+            }));
+
             this._slots.add_child(box);
         }
     }
