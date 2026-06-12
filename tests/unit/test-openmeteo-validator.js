@@ -75,4 +75,11 @@ emptyTime.hourly.time = [];
 try { validate(emptyTime); } catch (e) { threw = e instanceof OpenMeteoValidationError; }
 assert(threw, 'empty hourly.time throws');
 
+// empty non-time array
+threw = false;
+const emptyArr = JSON.parse(JSON.stringify(VALID_RAW));
+emptyArr.hourly.temperature_2m = [];
+try { validate(emptyArr); } catch (e) { threw = e instanceof OpenMeteoValidationError; }
+assert(threw, 'empty hourly.temperature_2m throws');
+
 summary('OpenMeteoValidator');

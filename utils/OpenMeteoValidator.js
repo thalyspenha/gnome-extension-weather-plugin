@@ -34,8 +34,8 @@ function requireNumber(obj, section, field) {
 function requireArray(obj, section, field) {
     if (!Array.isArray(obj[field]))
         throw new OpenMeteoValidationError(`${section}.${field} must be an array`);
-    if (field === 'time' && obj[field].length === 0)
-        throw new OpenMeteoValidationError(`${section}.time must not be empty`);
+    if (obj[field].length === 0)
+        throw new OpenMeteoValidationError(`${section}.${field} must not be empty`);
 }
 
 export function validate(raw) {
