@@ -17,6 +17,8 @@ const WMO_MAP = new Map([
     [80, 'weather-showers-symbolic'],
     [81, 'weather-showers-symbolic'],
     [82, 'weather-showers-symbolic'],
+    [85, 'weather-snow-symbolic'],
+    [86, 'weather-snow-symbolic'],
     [95, 'weather-storm-symbolic'],
     [96, 'weather-storm-symbolic'],
     [99, 'weather-storm-symbolic'],
