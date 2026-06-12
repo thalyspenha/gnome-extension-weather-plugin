@@ -1,0 +1,136 @@
+/* === Popup container === */
+.weather-popup-container {
+    padding: 12px;
+}
+
+/* === Clima atual — topo === */
+.weather-current {
+    padding: 8px 0 12px 0;
+}
+
+.weather-temp-large {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.weather-temp-desc {
+    font-size: 12px;
+}
+
+/* === Clima atual — grid de detalhes === */
+.weather-details-grid {
+    margin-top: 10px;
+}
+
+.weather-detail-cell {
+    padding: 2px 8px 6px 0;
+}
+
+.weather-detail-label {
+    font-size: 11px;
+}
+
+.weather-detail-value {
+    font-size: 13px;
+}
+
+/* === Alertas === */
+.weather-alert-header-btn {
+    border-radius: 6px;
+    padding: 0;
+    margin: 4px 0;
+    background-color: rgba(230, 97, 0, 0.12);
+    border: 1px solid rgba(230, 97, 0, 0.3);
+}
+
+.weather-alert-header {
+    padding: 6px 10px;
+}
+
+.weather-alert-list {
+    margin: 2px 0 4px 0;
+}
+
+.weather-alert-row {
+    padding: 4px 4px;
+}
+
+.weather-alert-badge {
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.weather-alert-badge-extreme {
+    background-color: #e01b24;
+    color: #ffffff;
+}
+
+.weather-alert-badge-severe {
+    background-color: #e66100;
+    color: #ffffff;
+}
+
+.weather-alert-badge-moderate {
+    background-color: #f6d32d;
+    color: #1a1a1a;
+}
+
+.weather-alert-badge-minor {
+    background-color: #1c71d8;
+    color: #ffffff;
+}
+
+.weather-alert-badge-unknown {
+    background-color: #9a9996;
+    color: #ffffff;
+}
+
+/* === Section titles === */
+.weather-section-title {
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 4px;
+    margin-top: 2px;
+}
+
+/* === Previsão horária === */
+.weather-hourly-slots {
+    padding: 4px 0;
+}
+
+.weather-hourly-slot {
+    min-width: 56px;
+    padding: 4px 8px;
+}
+
+.weather-hour {
+    font-size: 11px;
+}
+
+.weather-precip-low {
+    font-size: 11px;
+}
+
+.weather-precip-high {
+    font-size: 11px;
+    color: #62a0ea;
+}
+
+/* === Previsão 7 dias === */
+.weather-daily-rows {
+    margin-top: 2px;
+}
+
+.weather-daily-row {
+    padding: 5px 0;
+}
+
+.weather-temp-min {
+    color: #62a0ea;
+}
+
+.weather-temp-max {
+    color: #ff7800;
+}
