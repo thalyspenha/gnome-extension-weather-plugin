@@ -33,6 +33,10 @@ class DailyForecastWidget extends St.BoxLayout {
             row.add_child(new St.Label({ text: DAY_NAMES[date.getDay()], xExpand: true }));
             row.add_child(new St.Icon({ iconName: getIconName(day.weatherCode), iconSize: 20 }));
             row.add_child(new St.Label({
+                text: `${day.precipitationProb}%`,
+                styleClass: 'weather-precip-prob',
+            }));
+            row.add_child(new St.Label({
                 text: `${formatTemp(day.tempMin, unit)} / ${formatTemp(day.tempMax, unit)}`,
             }));
             this._rows.add_child(row);

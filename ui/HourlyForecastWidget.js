@@ -40,6 +40,10 @@ class HourlyForecastWidget extends St.BoxLayout {
             box.add_child(new St.Label({ text: formatTime(slot.time), styleClass: 'weather-hour' }));
             box.add_child(new St.Icon({ iconName: getIconName(slot.weatherCode), iconSize: 24 }));
             box.add_child(new St.Label({ text: formatTemp(slot.temperature, unit) }));
+            box.add_child(new St.Label({
+                text: `${slot.precipitationProb}%`,
+                styleClass: 'weather-precip-prob',
+            }));
             this._slots.add_child(box);
         }
     }

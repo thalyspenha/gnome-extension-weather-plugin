@@ -15,6 +15,8 @@ class CurrentWeatherWidget extends St.BoxLayout {
         this._feelsLabel = new St.Label({ styleClass: 'weather-feels-like' });
         this._humidLabel = new St.Label({ styleClass: 'weather-detail' });
         this._windLabel  = new St.Label({ styleClass: 'weather-detail' });
+        this._gustLabel  = new St.Label({ styleClass: 'weather-detail' });
+        this._precipLabel = new St.Label({ styleClass: 'weather-detail' });
 
         const topRow = new St.BoxLayout({ xAlign: Clutter.ActorAlign.CENTER });
         topRow.add_child(this._icon);
@@ -24,6 +26,8 @@ class CurrentWeatherWidget extends St.BoxLayout {
         this.add_child(this._feelsLabel);
         this.add_child(this._humidLabel);
         this.add_child(this._windLabel);
+        this.add_child(this._gustLabel);
+        this.add_child(this._precipLabel);
     }
 
     /**
@@ -37,5 +41,7 @@ class CurrentWeatherWidget extends St.BoxLayout {
         this._feelsLabel.set_text(`Sensação: ${formatTemp(c.apparentTemperature, unit)}`);
         this._humidLabel.set_text(`Umidade: ${c.humidity}%`);
         this._windLabel.set_text(`Vento: ${formatWindSpeed(c.windSpeed)}`);
+        this._gustLabel.set_text(`Rajada: ${formatWindSpeed(c.windGust)}`);
+        this._precipLabel.set_text(`Precipitação: ${c.precipitation} mm`);
     }
 });
