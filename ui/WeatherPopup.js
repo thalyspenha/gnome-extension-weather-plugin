@@ -5,35 +5,35 @@ import { CurrentWeatherWidget } from './CurrentWeatherWidget.js';
 import { HourlyForecastWidget } from './HourlyForecastWidget.js';
 import { DailyForecastWidget }  from './DailyForecastWidget.js';
 
+function _separator() {
+    return new St.Widget({
+        styleClass: 'popup-separator-menu-item',
+        height:     1,
+        xExpand:    true,
+        style:      'margin: 6px 0;',
+    });
+}
+
 export class WeatherPopup extends PopupMenu.PopupMenuSection {
-    /**
-     * @param {Gio.Settings} settings
-     */
     constructor(settings) {
         super();
 
-        this._alertBanner = new AlertBannerWidget();
         this._current     = new CurrentWeatherWidget(settings);
+        this._alertBanner = new AlertBannerWidget();
         this._hourly      = new HourlyForecastWidget(settings);
         this._daily       = new DailyForecastWidget(settings);
 
         const container = new St.BoxLayout({
             vertical:   true,
             styleClass: 'weather-popup-container',
-            width:      340,
+            width:      380,
         });
 
         container.add_child(this._current);
         container.add_child(this._alertBanner);
-        container.add_child(new St.Widget({
-            styleClass: 'popup-separator-menu-item',
-            height:     1,
-        }));
+        container.add_child(_separator());
         container.add_child(this._hourly);
-        container.add_child(new St.Widget({
-            styleClass: 'popup-separator-menu-item',
-            height:     1,
-        }));
+        container.add_child(_separator());
         container.add_child(this._daily);
 
         const item = new PopupMenu.PopupBaseMenuItem({ reactive: false });
@@ -41,12 +41,9 @@ export class WeatherPopup extends PopupMenu.PopupMenuSection {
         this.addMenuItem(item);
     }
 
-    /**
-     * @param {import('../data/WeatherModel.js').WeatherModel} model
-     */
     update(model) {
-        this._alertBanner.update(model);
         this._current.update(model);
+        this._alertBanner.update(model);
         this._hourly.update(model);
         this._daily.update(model);
     }
