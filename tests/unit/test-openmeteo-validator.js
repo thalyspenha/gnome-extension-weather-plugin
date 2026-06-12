@@ -82,4 +82,11 @@ emptyArr.hourly.temperature_2m = [];
 try { validate(emptyArr); } catch (e) { threw = e instanceof OpenMeteoValidationError; }
 assert(threw, 'empty hourly.temperature_2m throws');
 
+// null value in current
+threw = false;
+const nullField = JSON.parse(JSON.stringify(VALID_RAW));
+nullField.current.precipitation = null;
+try { validate(nullField); } catch (e) { threw = e instanceof OpenMeteoValidationError; }
+assert(threw, 'null current field throws');
+
 summary('OpenMeteoValidator');

@@ -11,7 +11,7 @@ assertEqual(formatTime('2026-06-12T14:00'), '14:00',    'time HH:MM');
 assertEqual(formatTime('2026-06-12T09:05'), '09:05',    'time zero-padded');
 
 assertEqual(formatWindSpeed(0),   '0 km/h',   'wind zero');
-assertEqual(formatWindSpeed(5),   '18 km/h',  'wind 5m/s → 18km/h');
-assertEqual(formatWindSpeed(10),  '36 km/h',  'wind 10m/s');
+assertEqual(formatWindSpeed(18),  '18 km/h',  'wind 18 km/h');
+assertEqual(formatWindSpeed(36),  '36 km/h',  'wind 36 km/h');
 
 summary('Formatter');

@@ -34,12 +34,15 @@ export class OpenMeteoService {
     }
 
     async fetch(lat, lon) {
+        if (this._destroyed) throw new Error('OpenMeteoService destroyed');
+
         const key = this._cacheKey(lat, lon);
         if (this._isCacheValid(key)) return this._cache.model;
 
         const url   = this._buildUrl(lat, lon);
         const model = await this._fetchWithRetry(url);
 
+        if (this._destroyed) throw new Error('OpenMeteoService destroyed');
         this._cache = { key, model, fetchedAt: Date.now() };
         return model;
     }

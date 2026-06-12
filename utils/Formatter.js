@@ -20,9 +20,9 @@ export function formatTime(isoString) {
 }
 
 /**
- * @param {number} ms  metros por segundo
+ * @param {number} kmh  quilômetros por hora
  * @returns {string}
  */
-export function formatWindSpeed(ms) {
-    return `${Math.round(ms * 3.6)} km/h`;
+export function formatWindSpeed(kmh) {
+    return `${Math.round(kmh)} km/h`;
 }

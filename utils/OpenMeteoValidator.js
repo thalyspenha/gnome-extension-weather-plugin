@@ -27,8 +27,8 @@ function requireSection(raw, section) {
 }
 
 function requireNumber(obj, section, field) {
-    if (typeof obj[field] !== 'number')
-        throw new OpenMeteoValidationError(`${section}.${field} must be a number, got ${typeof obj[field]}`);
+    if (obj[field] === null || typeof obj[field] !== 'number')
+        throw new OpenMeteoValidationError(`${section}.${field} must be a number, got ${obj[field] === null ? 'null' : typeof obj[field]}`);
 }
 
 function requireArray(obj, section, field) {
