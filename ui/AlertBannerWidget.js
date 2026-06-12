@@ -42,7 +42,7 @@ class AlertBannerWidget extends St.BoxLayout {
             const type = _alertType(alert.title);
             if (!groups.has(type))
                 groups.set(type, { severities: [] });
-            groups.get(type).severities.push(alert.severity || 'Unknown');
+            groups.get(type).severities.push(alert.severity ?? 'Unknown');
         }
 
         const totalCount = model.alerts.length;
