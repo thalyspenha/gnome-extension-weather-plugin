@@ -3,7 +3,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import { WeatherService }      from './services/WeatherService.js';
 import { LocationService }     from './services/LocationService.js';
-import { OpenMeteoClient }     from './services/OpenMeteoClient.js';
+import { OpenMeteoService }    from './services/OpenMeteoService.js';
 import { InmetClient }         from './services/InmetClient.js';
 import { NotificationService } from './services/NotificationService.js';
 import { CacheStore }          from './data/CacheStore.js';
@@ -17,7 +17,7 @@ export default class WeatherExtension extends Extension {
 
         this._service = new WeatherService({
             locationService: new LocationService(),
-            weatherClient:   new OpenMeteoClient(),
+            weatherClient:   new OpenMeteoService({ timeout: 10, maxRetries: 3, baseDelay: 1000 }),
             alertClient:     new InmetClient(),
             cache:           new CacheStore(),
             notificationSvc: new NotificationService(),

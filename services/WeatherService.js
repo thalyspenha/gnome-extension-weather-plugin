@@ -13,7 +13,7 @@ export const WeatherService = GObject.registerClass({
     /**
      * @param {{
      *   locationService:  import('./LocationService.js').LocationService,
-     *   weatherClient:    import('./OpenMeteoClient.js').OpenMeteoClient,
+     *   weatherClient:    import('./OpenMeteoService.js').OpenMeteoService,
      *   alertClient:      import('./InmetClient.js').InmetClient,
      *   cache:            import('../data/CacheStore.js').CacheStore,
      *   notificationSvc:  import('./NotificationService.js').NotificationService,
